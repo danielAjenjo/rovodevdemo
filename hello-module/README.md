@@ -27,3 +27,8 @@ Esto ejecuta tests, formatea el código con Spotless (si es necesario) y verific
 
 ## Paquete base
 `com.company.hello`
+
+## Links
+- Confluence: https://nicolas-champions.atlassian.net/wiki/spaces/MP/pages/3473410
+- Jira: https://nicolas-champions.atlassian.net/browse/MP-14
+
