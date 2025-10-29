@@ -1,0 +1,9 @@
+{
+  "jira_projects": [
+    {
+      "url": "https://nicolas-champions.atlassian.net/browse/MP",
+      "key": "MP",
+      "id": "10017"
+    }
+  ]
+}
