@@ -18,6 +18,10 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
+      - name: Ensure mvnw executable
+        run: chmod +x mvnw
+        working-directory: ./hello-module
+
       - name: Spotless apply
         run: ./mvnw -B -ntp spotless:apply
         working-directory: ./hello-module
