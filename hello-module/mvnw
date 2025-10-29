@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Apache Maven Wrapper startup script v3.3.2
 # This script will download the maven-wrapper JAR if required and then run Maven.
 
