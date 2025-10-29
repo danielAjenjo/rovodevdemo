@@ -8,14 +8,18 @@ Java 17 + Spring Boot REST module that exposes a simple greeting endpoint.
 
 ## Cómo arrancar
 ```bash
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ## Cómo testear / CI local
 ```bash
-mvn -B -ntp verify
+./mvnw -B -ntp verify
 ```
-Esto ejecuta tests, verifica cobertura (JaCoCo ≥ 80% en `HelloService`), y chequea formato (Spotless) y estilo (Checkstyle).
+Esto ejecuta tests, formatea el código con Spotless (si es necesario) y verifica:
+- Cobertura (JaCoCo ≥ 80% en `HelloService`)
+- Estilo (Checkstyle)
+- Tests (JUnit 5 + Mockito)
+
 
 ## Uso del endpoint
 - GET `http://localhost:8080/api/hello` → `{ "message": "Hello, World!" }`
