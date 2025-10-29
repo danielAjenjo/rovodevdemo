@@ -1,23 +1,53 @@
-#!/bin/sh
-# Apache Maven Wrapper startup script v3.3.2
-# This script will download the maven-wrapper JAR if required and then run Maven.
+#!/usr/bin/env bash
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 
 set -euo pipefail
 
-WRAPPER_DIR="$(cd "$(dirname "$0")"; pwd -P)/.mvn/wrapper"
+# Maven Wrapper bootstrap script (based on official 3.3.x)
+
+# resolve links - $0 may be a softlink
+PRG="$0"
+while [ -h "$PRG" ]; do
+  ls=$(ls -ld "$PRG")
+  link=$(expr "$ls" : '.*-> \(.*\)$')
+  if expr "$link" : '/.*' >/dev/null; then
+    PRG="$link"
+  else
+    PRG="$(dirname "$PRG")/$link"
+  fi
+done
+
+SAVED="$(pwd)"
+BASE_DIR="$(cd "$(dirname "$PRG")" >/dev/null; pwd -P)"
+cd "$BASE_DIR" >/dev/null
+
+WRAPPER_DIR="$BASE_DIR/.mvn/wrapper"
 MVNW_JAR="$WRAPPER_DIR/maven-wrapper.jar"
 MVNW_PROPERTIES="$WRAPPER_DIR/maven-wrapper.properties"
 
 # Download maven-wrapper.jar if not exists
 if [ ! -f "$MVNW_JAR" ]; then
+  mkdir -p "$WRAPPER_DIR"
+  WRAPPER_URL=$(grep -E "^wrapperUrl=" "$MVNW_PROPERTIES" | cut -d'=' -f2-)
   if command -v curl >/dev/null 2>&1; then
-    WRAPPER_URL=$(grep -E "^wrapperUrl=" "$MVNW_PROPERTIES" | cut -d'=' -f2-)
-    mkdir -p "$WRAPPER_DIR"
     echo "Downloading Maven Wrapper JAR from $WRAPPER_URL" >&2
     curl -fsSL "$WRAPPER_URL" -o "$MVNW_JAR"
   elif command -v wget >/dev/null 2>&1; then
-    WRAPPER_URL=$(grep -E "^wrapperUrl=" "$MVNW_PROPERTIES" | cut -d'=' -f2-)
-    mkdir -p "$WRAPPER_DIR"
     echo "Downloading Maven Wrapper JAR from $WRAPPER_URL" >&2
     wget -q "$WRAPPER_URL" -O "$MVNW_JAR"
   else
@@ -32,11 +62,11 @@ if [ ! -x "$JAVA_EXEC" ]; then
   JAVA_EXEC="java"
 fi
 
-# Build classpath
-WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
-CP="$MVNW_JAR"
-
 # JVM options
 MAVEN_OPTS="${MAVEN_OPTS:-}"
 
-exec "$JAVA_EXEC" $MAVEN_OPTS -classpath "$CP" $WRAPPER_LAUNCHER "$@"
+# Exec wrapper main
+exec "$JAVA_EXEC" $MAVEN_OPTS \
+  -Dmaven.multiModuleProjectDirectory="$BASE_DIR" \
+  -cp "$MVNW_JAR" \
+  org.apache.maven.wrapper.MavenWrapperMain "$@"

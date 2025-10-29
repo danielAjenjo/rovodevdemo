@@ -20,7 +20,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public ResponseEntity<HelloResponse> hello(@RequestParam(name = "name", required = false) String name) {
-        String message = helloService.buildMessage(name);
+        final String message = helloService.buildMessage(name);
         return ResponseEntity.ok(new HelloResponse(message));
     }
 }
