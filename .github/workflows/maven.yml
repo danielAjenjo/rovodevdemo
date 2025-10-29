@@ -18,6 +18,10 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Build with Maven
-        run: mvn -B -ntp verify
+      - name: Spotless apply
+        run: ./mvnw -B -ntp spotless:apply
+        working-directory: ./hello-module
+
+      - name: Build with Maven (verify)
+        run: ./mvnw -B -ntp verify
         working-directory: ./hello-module

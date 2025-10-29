@@ -1,0 +1,42 @@
+#!/bin/sh
+# Apache Maven Wrapper startup script v3.3.2
+# This script will download the maven-wrapper JAR if required and then run Maven.
+
+set -euo pipefail
+
+WRAPPER_DIR="$(cd "$(dirname "$0")"; pwd -P)/.mvn/wrapper"
+MVNW_JAR="$WRAPPER_DIR/maven-wrapper.jar"
+MVNW_PROPERTIES="$WRAPPER_DIR/maven-wrapper.properties"
+
+# Download maven-wrapper.jar if not exists
+if [ ! -f "$MVNW_JAR" ]; then
+  if command -v curl >/dev/null 2>&1; then
+    WRAPPER_URL=$(grep -E "^wrapperUrl=" "$MVNW_PROPERTIES" | cut -d'=' -f2-)
+    mkdir -p "$WRAPPER_DIR"
+    echo "Downloading Maven Wrapper JAR from $WRAPPER_URL" >&2
+    curl -fsSL "$WRAPPER_URL" -o "$MVNW_JAR"
+  elif command -v wget >/dev/null 2>&1; then
+    WRAPPER_URL=$(grep -E "^wrapperUrl=" "$MVNW_PROPERTIES" | cut -d'=' -f2-)
+    mkdir -p "$WRAPPER_DIR"
+    echo "Downloading Maven Wrapper JAR from $WRAPPER_URL" >&2
+    wget -q "$WRAPPER_URL" -O "$MVNW_JAR"
+  else
+    echo "ERROR: curl or wget is required to download maven-wrapper.jar" >&2
+    exit 1
+  fi
+fi
+
+# Locate Java
+JAVA_EXEC="${JAVA_HOME:-}/bin/java"
+if [ ! -x "$JAVA_EXEC" ]; then
+  JAVA_EXEC="java"
+fi
+
+# Build classpath
+WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
+CP="$MVNW_JAR"
+
+# JVM options
+MAVEN_OPTS="${MAVEN_OPTS:-}"
+
+exec "$JAVA_EXEC" $MAVEN_OPTS -classpath "$CP" $WRAPPER_LAUNCHER "$@"
