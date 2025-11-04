@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Maven Wrapper startup script (simplified, compatible with wrapper 3.3.x)
+# Shebang and passing -Dmaven.multiModuleProjectDirectory are ensured.
+
+set -euo pipefail
+
+WRAPPER_DIR="$(cd "${BASH_SOURCE%/*}" >/dev/null 2>&1 && pwd)/.mvn/wrapper"
+MVNW_VERBOSE="${MVNW_VERBOSE:-false}"
+BASE_DIR=$(cd "$(dirname "$0")"; pwd -P)
+MAVEN_PROJECTBASEDIR=${MAVEN_BASEDIR:-"$BASE_DIR"}
+
+# Download maven-wrapper.jar if not present
+WRAPPER_JAR="$WRAPPER_DIR/maven-wrapper.jar"
+PROPS_FILE="$WRAPPER_DIR/maven-wrapper.properties"
+if [ ! -f "$WRAPPER_JAR" ]; then
+  if [ "$MVNW_VERBOSE" = true ]; then echo "Downloading maven-wrapper.jar ..."; fi
+  WRAPPER_URL=$(grep -E "^wrapperUrl=" "$PROPS_FILE" | cut -d= -f2-)
+  mkdir -p "$WRAPPER_DIR"
+  curl -fsSL "$WRAPPER_URL" -o "$WRAPPER_JAR"
+fi
+
+JAVA_EXE="${JAVA_HOME:-}/bin/java"
+if [ ! -x "$JAVA_EXE" ]; then
+  JAVA_EXE=$(command -v java)
+fi
+
+exec "$JAVA_EXE" \
+  -Dmaven.multiModuleProjectDirectory="$MAVEN_PROJECTBASEDIR" \
+  -classpath "$WRAPPER_JAR" \
+  org.apache.maven.wrapper.MavenWrapperMain "$@"
