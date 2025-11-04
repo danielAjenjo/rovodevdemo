@@ -96,7 +96,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
+                    <configLocation>config/checkstyle/checkstyle.xml</configLocation>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
@@ -140,7 +140,7 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <includes>
-                                        <include>com/company/hello/service/HelloService.class</include>
+                                        <include>com.company.hello.service.HelloService</include>
                                     </includes>
                                     <limits>
                                         <limit>
